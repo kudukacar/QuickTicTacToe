@@ -1,23 +1,30 @@
 require 'tictactoe'
 
 RSpec.describe "TicTacToe" do
-  class Stdout
+  class DisplayWithOnlyOutput
     attr_reader :outputs
     def initialize
       @outputs = "";
     end
-    def puts(message)
+    def output(message)
       @outputs += message
+    end
+  end
+
+  class PresenterWithFormattedBoard
+    def present
+      "Formatted Board"
     end
   end
   
   describe "#run" do
     it "displays a welcome message" do
-      stdout = Stdout.new
-      tictactoe = TicTacToe.new(stdout)
+      display = DisplayWithOnlyOutput.new
+      presenter = PresenterWithFormattedBoard.new
+      tictactoe = TicTacToe.new(display, presenter)
       tictactoe.run
 
-      expect(stdout.outputs).to include("Welcome ")
+      expect(display.outputs).to include("Board")
     end
   end
 end
