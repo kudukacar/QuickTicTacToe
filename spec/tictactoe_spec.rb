@@ -4,27 +4,51 @@ RSpec.describe "TicTacToe" do
   class DisplayWithOnlyOutput
     attr_reader :outputs
     def initialize
-      @outputs = "";
+      @outputs = [];
     end
     def output(message)
-      @outputs += message
+      @outputs.push(message)
     end
   end
 
   class PresenterWithFormattedBoard
-    def present
-      "Formatted Board"
+    def present(board)
+      board.get(1) or "_"
+    end
+  end
+
+  class BoardWithTwoMethods
+    def initialize(board)
+      @board = board
+    end
+    def record(move, token)
+      @board.push(token)
+    end
+    def get(position)
+      @board[position - 1]
+    end
+  end
+
+  class PlayerWithOneSelection
+    attr_reader :token
+    def initialize(token)
+      @token = token
+    end
+    def selection(display)
+      1
     end
   end
   
   describe "#run" do
-    it "displays a welcome message" do
+    it "shows every state of the board" do
       display = DisplayWithOnlyOutput.new
       presenter = PresenterWithFormattedBoard.new
-      tictactoe = TicTacToe.new(display, presenter)
+      player = PlayerWithOneSelection.new("X")
+      board = BoardWithTwoMethods.new([])
+      tictactoe = TicTacToe.new(display, presenter, player, board)
       tictactoe.run
 
-      expect(display.outputs).to include("Board")
+      expect(display.outputs).to eq(["_", "X"])
     end
   end
 end
