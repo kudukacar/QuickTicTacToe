@@ -1,17 +1,26 @@
 require 'presenter'
 
 RSpec.describe "Presenter" do
+  class BoardWithOneMethod
+    def initialize(board)
+      @board = board
+    end
+    def get(position)
+      @board[position - 1]
+    end
+  end
   describe "present" do
-    it "formats a 3 x 3 board" do
+    it "formats the board" do
+      board = BoardWithOneMethod.new(["X"])
       presenter = Presenter.new
       expected_board = <<~BOARD
-        |  |
-      --+--+--
-        |  |
-      --+--+--
-        |  |
+       X |   |   
+      ---+---+---
+         |   |   
+      ---+---+---
+         |   |   
       BOARD
-      expect(presenter.present).to include(expected_board)
+      expect(presenter.present(board)).to include(expected_board)
     end
   end
 end
