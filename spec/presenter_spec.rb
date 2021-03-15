@@ -8,9 +8,12 @@ RSpec.describe "Presenter" do
     def get(position)
       @board[position - 1]
     end
+    def outcome
+      "X wins"
+    end
   end
   describe "present" do
-    it "formats the board" do
+    it "formats the board and outcome" do
       board = BoardWithOneMethod.new(["X", "O", "X", "O", "X", "O", "X", "O", "X"])
       presenter = Presenter.new
       expected_board = <<~BOARD
@@ -20,7 +23,8 @@ RSpec.describe "Presenter" do
       ---+---+---
        X | O | X 
       BOARD
-      expect(presenter.present(board)).to include(expected_board)
+      expected_outcome = "\n#{board.outcome}"
+      expect(presenter.present(board)).to include(expected_board + expected_outcome)
     end
   end
 end

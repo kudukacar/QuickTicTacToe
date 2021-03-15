@@ -82,4 +82,17 @@ RSpec.describe "Board" do
       expect(board.game_over?).to eq(true)
     end
   end
+  describe "#outcome" do
+    it "returns 'X wins!' if X is the winner" do
+      create_row_winner
+
+      expect(board.outcome).to eq('X wins!')
+    end
+
+    it "returns 'Draw!' if draw" do
+      create_game_draw
+
+      expect(board.outcome).to eq('Draw!')
+    end
+  end
 end

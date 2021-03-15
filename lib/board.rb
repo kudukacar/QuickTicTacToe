@@ -19,6 +19,11 @@ class Board
     (winner or draw?) ? true : false
   end
 
+  def outcome
+    return "#{winner} wins!" if winner
+    return "Draw!" if draw?
+  end
+
   def winner
     (rows + columns + diagonals).each do |line|
       token = get(line.first)   
