@@ -13,7 +13,7 @@ RSpec.describe "TicTacToe" do
 
   class PresenterWithFormattedBoard
     def present(board)
-      board.get(1) or "_"
+      "#{board.get(1) or "_"}#{board.get(2) or "_"}"
     end
   end
 
@@ -34,8 +34,18 @@ RSpec.describe "TicTacToe" do
     def initialize(token)
       @token = token
     end
-    def selection(display)
+    def selection(display, board)
       1
+    end
+  end
+
+  class PlayerWithTwoSelection
+    attr_reader :token
+    def initialize(token)
+      @token = token
+    end
+    def selection(display, board)
+      2
     end
   end
   
@@ -43,12 +53,13 @@ RSpec.describe "TicTacToe" do
     it "shows every state of the board" do
       display = DisplayWithOnlyOutput.new
       presenter = PresenterWithFormattedBoard.new
-      player = PlayerWithOneSelection.new("X")
+      first_player = PlayerWithOneSelection.new("X")
+      second_player = PlayerWithTwoSelection.new("O")
       board = BoardWithTwoMethods.new([])
-      tictactoe = TicTacToe.new(display, presenter, player, board)
+      tictactoe = TicTacToe.new(display, presenter, [first_player, second_player], board)
       tictactoe.run
 
-      expect(display.outputs).to eq(["_", "X"])
+      expect(display.outputs).to eq(["__", "X_", "XO"])
     end
   end
 end

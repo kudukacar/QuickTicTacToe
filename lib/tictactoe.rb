@@ -5,32 +5,34 @@ require_relative "./board"
 
 class TicTacToe
   attr_reader :stdout
-  def initialize(display, presenter, player, board)
+  def initialize(display, presenter, players, board)
     @display = display
     @presenter = presenter
     @board = board
-    @player = player
+    @players = players
   end
 
   def run
     show_board
-    play_turn
-    show_board
+    @players.cycle(1) do |player|
+      play_turn(player)
+      show_board
+    end
   end
 
   def show_board
     @display.output(@presenter.present(@board))
   end
 
-  def play_turn
-    @board.record(@player.selection(@display), @player.token)
+  def play_turn(player)
+    @board.record(player.selection(@display, @board), player.token)
   end
 end
 
 if $PROGRAM_NAME == __FILE__
   display = Display.new($stdout, $stdin)
   presenter = Presenter.new
-  player = Player.new("X")
   board = Board.new(Array.new(9))
-  TicTacToe.new(display, presenter, player, board).run
+  players = [Player.new("X"), Player.new("O")]
+  TicTacToe.new(display, presenter, players, board).run
 end

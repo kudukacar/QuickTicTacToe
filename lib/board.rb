@@ -10,4 +10,8 @@ class Board
   def get(position)
     @board[position - 1]
   end
+
+  def is_available?(position)
+    @board[position - 1].nil?
+  end
 end

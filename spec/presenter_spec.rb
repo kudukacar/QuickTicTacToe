@@ -11,14 +11,14 @@ RSpec.describe "Presenter" do
   end
   describe "present" do
     it "formats the board" do
-      board = BoardWithOneMethod.new(["X"])
+      board = BoardWithOneMethod.new(["X", "O", "X", "O", "X", "O", "X", "O", "X"])
       presenter = Presenter.new
       expected_board = <<~BOARD
-       X |   |   
+       X | O | X 
       ---+---+---
-         |   |   
+       O | X | O 
       ---+---+---
-         |   |   
+       X | O | X 
       BOARD
       expect(presenter.present(board)).to include(expected_board)
     end
