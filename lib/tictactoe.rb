@@ -14,9 +14,10 @@ class TicTacToe
 
   def run
     show_board
-    @players.cycle(1) do |player|
+    @players.cycle do |player|
       play_turn(player)
       show_board
+      break if @board.game_over?
     end
   end
 

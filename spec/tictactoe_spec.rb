@@ -13,11 +13,11 @@ RSpec.describe "TicTacToe" do
 
   class PresenterWithFormattedBoard
     def present(board)
-      "#{board.get(1) or "_"}#{board.get(2) or "_"}"
+      (1..9).map { |position| board.get(position) or "" }.join
     end
   end
 
-  class BoardWithTwoMethods
+  class BoardWithThreeMethods
     def initialize(board)
       @board = board
     end
@@ -27,39 +27,35 @@ RSpec.describe "TicTacToe" do
     def get(position)
       @board[position - 1]
     end
-  end
 
-  class PlayerWithOneSelection
-    attr_reader :token
-    def initialize(token)
-      @token = token
-    end
-    def selection(display, board)
-      1
+    def game_over?()
+      @board.length == 9 ? true : false
     end
   end
 
-  class PlayerWithTwoSelection
+  class PlayerWithManySelections
     attr_reader :token
-    def initialize(token)
+    def initialize(token, selections)
       @token = token
+      @selections = selections
     end
     def selection(display, board)
-      2
+      @selections.shift
     end
   end
+
   
   describe "#run" do
-    it "shows every state of the board" do
+    it "plays the game until it's over" do
       display = DisplayWithOnlyOutput.new
       presenter = PresenterWithFormattedBoard.new
-      first_player = PlayerWithOneSelection.new("X")
-      second_player = PlayerWithTwoSelection.new("O")
-      board = BoardWithTwoMethods.new([])
+      first_player = PlayerWithManySelections.new("X", [1, 3, 5, 7, 9])
+      second_player = PlayerWithManySelections.new("O", [2, 4, 6, 8])
+      board = BoardWithThreeMethods.new([])
       tictactoe = TicTacToe.new(display, presenter, [first_player, second_player], board)
       tictactoe.run
 
-      expect(display.outputs).to eq(["__", "X_", "XO"])
+      expect(display.outputs).to eq(["", "X", "XO", "XOX", "XOXO", "XOXOX", "XOXOXO", "XOXOXOX", "XOXOXOXO", "XOXOXOXOX"])
     end
   end
 end
