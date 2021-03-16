@@ -24,6 +24,8 @@ class Board
     return "Draw!" if draw?
   end
 
+  private
+  
   def winner
     (rows + columns + diagonals).each do |line|
       token = get(line.first)   

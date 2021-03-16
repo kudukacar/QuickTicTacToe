@@ -7,7 +7,6 @@ class Presenter
       ---+---+---
        #{get_cell(board, 7)} | #{get_cell(board, 8)} | #{get_cell(board, 9)} 
       BOARD
-      return formatted_board + "\n#{board.outcome}"
   end
 
   def get_cell(board, position)

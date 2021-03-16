@@ -15,19 +15,30 @@ class TicTacToe
 
   def run
     show_board
-    @players.cycle do |player|
-      play_turn(player)
-      show_board
-      break if @board.game_over?
-    end
+    play_game
+    show_outcome
   end
+
+  private
 
   def show_board
     @display.output(@presenter.present(@board))
   end
 
+  def show_outcome
+    @display.output(@board.outcome)
+  end
+
   def play_turn(player)
     @board.record(player.selection(@board), player.token)
+  end
+
+  def play_game
+    @players.cycle do |player|
+      play_turn(player)
+      show_board
+      break if @board.game_over?
+    end
   end
 end
 

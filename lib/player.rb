@@ -4,6 +4,7 @@ class Player
     @token = token
     @display = display
   end
+  
   def selection(board)
     loop do
       @display.output("Please select your move")
@@ -12,6 +13,7 @@ class Player
     end
   end
 
+  private
   def selection_valid(selection)
     if selection.between?(1,9) 
       selection
