@@ -39,7 +39,7 @@ RSpec.describe "TicTacToe" do
       @token = token
       @selections = selections
     end
-    def selection(display, board)
+    def selection(board)
       @selections.shift
     end
   end

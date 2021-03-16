@@ -25,8 +25,8 @@ RSpec.describe "Player" do
       it "prompts the player for a selection until getting a valid and available one" do
         display = DisplayWithInputandOutput.new([10, 0, 5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X")
-        player.selection(display, board)
+        player = Player.new("X", display)
+        player.selection(board)
 
         expect(display.messages).to match_array(["Please select your move", "Invalid entry", "Please select your move", "Invalid entry", "Please select your move"])
       end
@@ -36,8 +36,8 @@ RSpec.describe "Player" do
       it "prompts the player for a selection until getting a valid and available one" do
         display = DisplayWithInputandOutput.new([9, 1, 5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X")
-        player.selection(display, board)
+        player = Player.new("X", display)
+        player.selection(board)
 
         expect(display.messages).to match_array(["Please select your move", "Selection not available", "Please select your move", "Selection not available", "Please select your move"])
       end
@@ -47,9 +47,9 @@ RSpec.describe "Player" do
       it "returns the selection" do
         display = DisplayWithInputandOutput.new([5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X")
+        player = Player.new("X", display)
 
-        expect(player.selection(display, board)).to eq(5)
+        expect(player.selection(board)).to eq(5)
       end
     end
   end
