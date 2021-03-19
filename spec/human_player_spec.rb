@@ -1,6 +1,7 @@
-require 'player'
+require 'human_player'
+require 'validator'
 
-RSpec.describe "Player" do
+RSpec.describe "HumanPlayer" do
   class DisplayWithInputandOutput
     attr_reader :messages
     def initialize(inputs)
@@ -17,15 +18,24 @@ RSpec.describe "Player" do
 
   class BoardWithIsAvailable
     def is_available?(selection)
-      selection == 5 ? true : false
+      selection == 5
     end
   end
+
+  class InputParser
+    def to_integer(input)
+      input
+    end
+  end
+
   describe "#selection" do
     context "with a response not within 1 and 9" do
       it "prompts the player for a selection until getting a valid and available one" do
         display = DisplayWithInputandOutput.new([10, 0, 5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X", display)
+        parser = InputParser.new
+        validator = Validator.new(display)
+        player = HumanPlayer.new("X", display, parser, validator)
         player.selection(board)
 
         expect(display.messages).to match_array(["Please select your move", "Invalid entry", "Please select your move", "Invalid entry", "Please select your move"])
@@ -36,7 +46,9 @@ RSpec.describe "Player" do
       it "prompts the player for a selection until getting a valid and available one" do
         display = DisplayWithInputandOutput.new([9, 1, 5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X", display)
+        parser = InputParser.new
+        validator = Validator.new(display)
+        player = HumanPlayer.new("X", display, parser, validator)
         player.selection(board)
 
         expect(display.messages).to match_array(["Please select your move", "Selection not available", "Please select your move", "Selection not available", "Please select your move"])
@@ -47,7 +59,9 @@ RSpec.describe "Player" do
       it "returns the selection" do
         display = DisplayWithInputandOutput.new([5])
         board = BoardWithIsAvailable.new()
-        player = Player.new("X", display)
+        parser = InputParser.new
+        validator = Validator.new(display)
+        player = HumanPlayer.new("X", display, parser, validator)
 
         expect(player.selection(board)).to eq(5)
       end

@@ -29,7 +29,7 @@ RSpec.describe "TicTacToe" do
     end
 
     def game_over?()
-      @board.length == 9 ? true : false
+      @board.length == 9
     end
 
     def outcome
