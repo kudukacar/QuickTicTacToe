@@ -3,7 +3,7 @@ require 'computer_player'
 RSpec.describe "ComputerPlayer" do
   class BoardWithOneAvailable
     def is_available?(position)
-      position == 1 ? true : false
+      position == 1
     end
   end
   describe "#selection" do
