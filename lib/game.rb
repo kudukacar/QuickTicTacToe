@@ -6,9 +6,9 @@ class Game
     @game_choices = game_choices
   end
   def choose_game
+    choices = @game_choices.keys
+    range = choices.length
     loop do
-      choices = @game_choices.keys
-      range = choices.length
       @display.output("Please select your game choice[1, #{range}]:  #{choices.join(" ")}")
       selection = @parser.to_integer(@display.input)
       return @game_choices[choices[selection - 1]]if @validator.validate(selection, range)
